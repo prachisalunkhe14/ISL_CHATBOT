@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastAPI Gemini Chatbot</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 600px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #response-area {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #e9ecef;
+            border-radius: 5px;
+            min-height: 50px;
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Gemini API with FastAPI</h1>
+        <input type="text" id="query-text" placeholder="Enter your query here...">
+        <button onclick="getQueryResponse()">Get Response</button>
+        <h3>Response from Gemini:</h3>
+        <div id="response-area"></div>
+    </div>
+
+    <script>
+        async function getQueryResponse() {
+            const queryText = document.getElementById('query-text').value;
+            const responseArea = document.getElementById('response-area');
+
+            if (!queryText) {
+                responseArea.innerText = "Please enter a query.";
+                return;
+            }
+
+            responseArea.innerText = "Loading...";
+
+            try {
+                const response = await fetch('http://127.0.0.1:8000/infobot/query', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ text: queryText })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+
+                const data = await response.json();
+                responseArea.innerText = data.infobot_response;
+                console.log("Response from backend:", data.infobot_response);
+
+            } catch (error) {
+                responseArea.innerText = 'An error occurred: ' + error.message;
+                console.error("Fetch error:", error);
+            }
+        }
+    </script>
+</body>
+
+</html>
