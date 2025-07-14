@@ -11,6 +11,15 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+from fastapi import FastAPI
+
+app = FastAPI()
+
+@app.get("/")
+async def root():
+    return {"message": "Hello from ISL Chatbot!"}
+
+
 
 # Register the router
 app.include_router(infobot_router, prefix="/infobot")
