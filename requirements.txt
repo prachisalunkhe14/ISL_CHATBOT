@@ -1,3 +1,5 @@
+# It tells the server (like Render) what Python packages to install, while deploying the app(chatbot)
+# A grocery list that tells Render everything it needs to install to cook (run) your code successfully.
 fastapi
 uvicorn
 jinja2
