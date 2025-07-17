@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -31,12 +30,15 @@
             color: #333;
         }
 
-        input {
-            width: calc(100% - 22px);
+        textarea {
+            width: 100%;
+            height: 100px;
             padding: 10px;
             margin-bottom: 15px;
             border: 1px solid #ccc;
             border-radius: 5px;
+            resize: vertical;
+            overflow-y: auto;
         }
 
         button {
@@ -59,7 +61,8 @@
             padding: 15px;
             background-color: #e9ecef;
             border-radius: 5px;
-            min-height: 50px;
+            max-height: 300px;
+            overflow-y: auto;
             white-space: pre-wrap;
         }
     </style>
@@ -68,7 +71,7 @@
 <body>
     <div class="container">
         <h1>Gemini API with FastAPI</h1>
-        <input type="text" id="query-text" placeholder="Enter your query here...">
+        <textarea id="query-text" placeholder="Enter your query here..."></textarea>
         <button onclick="getQueryResponse()">Get Response</button>
         <h3>Response from Gemini:</h3>
         <div id="response-area"></div>
@@ -79,7 +82,7 @@
             const queryText = document.getElementById('query-text').value;
             const responseArea = document.getElementById('response-area');
 
-            if (!queryText) {
+            if (!queryText.trim()) {
                 responseArea.innerText = "Please enter a query.";
                 return;
             }
@@ -110,5 +113,4 @@
         }
     </script>
 </body>
-
 </html>
